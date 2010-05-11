@@ -1,49 +1,52 @@
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%if ! (0%{?fedora} > 12 || 0%{?rhel} > 5)
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%endif
 
-%global ver_min .90
+%global gitdate 20100511git
 
 Name:           python-vlc
-Version:        1.0.0
-Release:        0.2%{ver_min}%{?dist}
+Version:        1.1.0
+Release:        0.1.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            http://www.videolan.org/
-Source0:        %{name}-%{version}%{ver_min}.tar.gz
+Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
 Source9:        %{name}-snapshot.sh
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:  python-devel
-BuildRequires:  python-setuptools
-BuildRequires:  vlc-devel
+BuildArch:      noarch
+BuildRequires:  python2-devel
+Requires:       vlc-core >= 1.1.0
 
 %description
 This package provides a python interface to control VLC Media Player.
 
 %prep
-%setup -q -n %{name}-%{version}%{ver_min}
+%setup -q
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" python -c 'import setuptools; execfile("setup.py")' build
+# The vlc.py file is already generated
 
 %install
 rm -rf $RPM_BUILD_ROOT
-python -c 'import setuptools; execfile("setup.py")' install --skip-build --root $RPM_BUILD_ROOT
+sleep 1m
+mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
+install -pm 755 generated/vlc.py vlcwidget.py \
+   $RPM_BUILD_ROOT%{python_sitelib}/
 
-# Correct the permission of the script
-chmod +x $RPM_BUILD_ROOT%{python_sitearch}/vlcwidget.py
- 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc README
-%{python_sitearch}/*egg-info
-%{python_sitearch}/vlc.so
-%{python_sitearch}/vlcwidget.py*
+%doc README TODO
+%{python_sitelib}/vlc.py*
+%{python_sitelib}/vlcwidget.py*
 
 %changelog
+* Tue May 11 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-0.1.20100511git
+- Update to 1.1.0 (git checkout)
+
 * Fri Jun 19 2009 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.0.0-0.2.90
 - Remove COPYING file
 

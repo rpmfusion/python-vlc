@@ -16,18 +16,11 @@ sdate=$(date +%Y%m%d)
 name=python-vlc
 
 pushd "$tmp" > /dev/null
-# Because git sucks, we download the entire vlc tree:
-git clone git://git.videolan.org/vlc.git
-pushd vlc > /dev/null
-git checkout origin/1.0-bugfix
-pushd bindings/python/ > /dev/null
-python setup.py sdist
-pushd dist > /dev/null
-for file in *.tar.gz; do
-mv $file "$pwd"/
+git clone git://git.videolan.org/vlc/bindings/python.git
+version=$(cat python/setup.py |grep version|sed -e "s|.*= '||" -e "s|',||")
+mv python $name-$version
+rm -fr $name-$version/.git
+file=$name-$version-"$sdate"git.tar.bz2
+tar jcvf "$pwd"/$file $name-$version/
 echo "Wrote: " $file
-done
-popd > /dev/null
-popd > /dev/null
-popd > /dev/null
 popd > /dev/null
