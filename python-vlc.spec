@@ -2,11 +2,11 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 %endif
 
-%global gitdate 20100511git
+%global gitdate 20100706git
 
 Name:           python-vlc
 Version:        1.1.0
-Release:        0.1.%{gitdate}%{?dist}
+Release:        1.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/vlcwidget.py*
 
 %changelog
+* Tue Jul 06 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-1.20100706git
+- 1.1.0 final updates
+
 * Tue May 11 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-0.1.20100511git
 - Update to 1.1.0 (git checkout)
 
