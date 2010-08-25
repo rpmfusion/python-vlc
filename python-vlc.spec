@@ -44,7 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/vlcwidget.py*
 
 %changelog
-* Wed Aug 15 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-2.20100825git
+* Wed Aug 25 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-2.20100825git
 - Latest git snapshot.
 - Build against python-2.7 on F-14
 
