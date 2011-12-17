@@ -6,7 +6,7 @@
 
 Name:           python-vlc
 Version:        1.1.0
-Release:        2.%{gitdate}%{?dist}
+Release:        3.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 %{python_sitelib}/vlcwidget.py*
 
 %changelog
+* Sat Dec 17 2011 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-3.20100825git
+- Rebuild for vlc-1.2.x
+
 * Wed Aug 25 2010 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-2.20100825git
 - Latest git snapshot.
 - Build against python-2.7 on F-14
