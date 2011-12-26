@@ -2,11 +2,11 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 %endif
 
-%global gitdate 20100825git
+%global gitdate 20111225git
 
 Name:           python-vlc
 Version:        1.1.0
-Release:        3.%{gitdate}%{?dist}
+Release:        4.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -28,22 +28,28 @@ This package provides a python interface to control VLC Media Player.
 # The vlc.py file is already generated
 
 %install
-rm -rf $RPM_BUILD_ROOT
 sleep 1m
 mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
-install -pm 755 generated/vlc.py vlcwidget.py \
+install -pm 755 generated/vlc.py \
    $RPM_BUILD_ROOT%{python_sitelib}/
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/examples
+install -pm 755 examples/* \
+   $RPM_BUILD_ROOT%{_datadir}/%{name}/examples/
 
-%clean
-rm -rf $RPM_BUILD_ROOT
+
+%check
+./test.py
 
 %files
-%defattr(-,root,root,-)
 %doc README TODO
 %{python_sitelib}/vlc.py*
-%{python_sitelib}/vlcwidget.py*
+%{_datadir}/%{name}/
+
 
 %changelog
+* Sun Dec 25 2011 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-4.20111225git
+- Latest git snapshot.
+
 * Sat Dec 17 2011 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-3.20100825git
 - Rebuild for vlc-1.2.x
 
