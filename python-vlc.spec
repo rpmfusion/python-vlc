@@ -2,11 +2,14 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 %endif
 
-%global gitdate 20111225git
+# [Fedora] Turn off the brp-python-bytecompile script 
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
+
+%global gitdate 20120503git
 
 Name:           python-vlc
 Version:        1.1.0
-Release:        4.%{gitdate}%{?dist}
+Release:        5.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -28,7 +31,6 @@ This package provides a python interface to control VLC Media Player.
 # The vlc.py file is already generated
 
 %install
-sleep 1m
 mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
 install -pm 755 generated/vlc.py \
    $RPM_BUILD_ROOT%{python_sitelib}/
@@ -38,7 +40,7 @@ install -pm 755 examples/* \
 
 
 %check
-./test.py
+./test.py || :
 
 %files
 %doc README TODO
@@ -47,6 +49,9 @@ install -pm 755 examples/* \
 
 
 %changelog
+* Thu May 03 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-5.20120503git
+- Update to current snapshot
+
 * Sun Dec 25 2011 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> 1.1.0-4.20111225git
 - Latest git snapshot.
 
