@@ -9,7 +9,7 @@
 
 Name:           python-vlc
 Version:        1.1.0
-Release:        5.%{gitdate}%{?dist}
+Release:        6.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -49,6 +49,9 @@ install -pm 755 examples/* \
 
 
 %changelog
+* Sun Mar 03 2013 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-6.20120503git
+- Mass rebuilt for Fedora 19 Features
+
 * Thu May 03 2012 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-5.20120503git
 - Update to current snapshot
 
