@@ -1,18 +1,17 @@
-# [Fedora] Turn off the brp-python-bytecompile script 
+# [Fedora] Turn off the brp-python-bytecompile script
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
-%global gitdate 20141115git
+%global gitdate 20161001git5d389c7
 
 Name:           python-vlc
-Version:        1.1.0
-Release:        9.%{gitdate}%{?dist}
+Version:        1.1.2
+Release:        1.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            http://www.videolan.org/
 Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
 Source9:        %{name}-snapshot.sh
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python2-devel
 Requires:       vlc-core >= 1.1.0
@@ -25,29 +24,37 @@ This package provides a python interface to control VLC Media Player.
 
 %build
 # The vlc.py file is already generated
+%py2_build
 
 %install
-mkdir -p $RPM_BUILD_ROOT%{python_sitelib}
-install -pm 755 generated/vlc.py \
-   $RPM_BUILD_ROOT%{python_sitelib}/
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/%{name}/examples
-install -pm 755 examples/* \
-   $RPM_BUILD_ROOT%{_datadir}/%{name}/examples/
+%py2_install
 
+mkdir -p %{buildroot}%{_datadir}/%{name}/examples
+install -pm 755 examples/* \
+   %{buildroot}%{_datadir}/%{name}/examples/
+
+#fix rpmlint
+chmod +x %{buildroot}%{python2_sitelib}/*py
 
 %check
-./test.py || :
+%{__python2} setup.py test
+
 
 %files
-%doc README TODO
-%{python_sitelib}/vlc.py*
+%doc README.rst TODO
+%{python2_sitelib}/vlc.py*
+%{python2_sitelib}/*egg-info
 %{_datadir}/%{name}/
 
 
 %changelog
+* Sat Oct 01 2016 Sérgio Basto <sergio@serjux.com> - 1.1.2-1.20161001git5d389c7
+- Add git tag to version.
+- Update to 1.1.2-20161001git5d389c7
+- Update python snippets.
+
 * Mon Aug 01 2016 Sérgio Basto <sergio@serjux.com> - 1.1.0-9.20141115git
--
-  https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
 * Sat Nov 15 2014 Nicolas Chauvet <kwizart@gmail.com> - 1.1.0-8.20120503git
 - Update to today's snapshot
