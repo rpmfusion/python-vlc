@@ -2,10 +2,13 @@
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
 %global gitdate 20161001git5d389c7
+%global srcname vlc
+%global sum VLC Media Player binding for Python
+%global desc This package provides a python interface to control VLC Media Player.
 
-Name:           python-vlc
+Name:           python-%{srcname}
 Version:        1.1.2
-Release:        1.%{gitdate}%{?dist}
+Release:        2.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -14,10 +17,25 @@ Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
 Source9:        %{name}-snapshot.sh
 BuildArch:      noarch
 BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 Requires:       vlc-core >= 1.1.0
 
 %description
 This package provides a python interface to control VLC Media Player.
+
+%package -n python2-%{srcname}
+Summary:        %{sum}
+%{?python_provide:%python_provide python2-%{srcname}}
+
+%description -n python2-%{srcname}
+%{desc}
+
+%package -n python3-%{srcname}
+Summary:        %{sum}
+%{?python_provide:%python_provide python3-%{srcname}}
+
+%description -n python3-%{srcname}
+%{desc}
 
 %prep
 %setup -q
@@ -25,29 +43,45 @@ This package provides a python interface to control VLC Media Player.
 %build
 # The vlc.py file is already generated
 %py2_build
+%py3_build
 
 %install
 %py2_install
+%py3_install
 
 mkdir -p %{buildroot}%{_datadir}/%{name}/examples
 install -pm 755 examples/* \
    %{buildroot}%{_datadir}/%{name}/examples/
 
+#fix shebang
+sed -i "s|! /usr/bin/python|! %{__python2}|" %{buildroot}%{python2_sitelib}/vlc.py
+sed -i "s|! /usr/bin/python|! %{__python3}|" %{buildroot}%{python3_sitelib}/vlc.py
+
 #fix rpmlint
 chmod +x %{buildroot}%{python2_sitelib}/*py
+chmod +x %{buildroot}%{python3_sitelib}/*py
 
 %check
 %{__python2} setup.py test
+%{__python3} setup.py test
 
-
-%files
+%files -n python2-%{srcname}
+%license COPYING
 %doc README.rst TODO
-%{python2_sitelib}/vlc.py*
-%{python2_sitelib}/*egg-info
+%{python2_sitelib}/*
+%{_datadir}/%{name}/
+
+%files -n python3-%{srcname}
+%license COPYING
+%doc README.rst TODO
+%{python3_sitelib}/*
 %{_datadir}/%{name}/
 
 
 %changelog
+* Mon Oct 03 2016 Orcan Ogetbil <oget [DOT] fedora [AT] gmail [DOT] com> - 1.1.2-2.20161001git5d389c7
+- Created separate python2 and 3 subpackages
+
 * Sat Oct 01 2016 Sérgio Basto <sergio@serjux.com> - 1.1.2-1.20161001git5d389c7
 - Add git tag to version.
 - Update to 1.1.2-20161001git5d389c7
