@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        1.1.2
-Release:        8.%{gitdate}%{?dist}
+Release:        9.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 Group:          Applications/Multimedia
 License:        GPLv2+
@@ -81,6 +81,9 @@ chmod +x %{buildroot}%{python3_sitelib}/*py
 
 
 %changelog
+* Mon Mar 04 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.1.2-9.20161001git5d389c7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Fri Jul 27 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.1.2-8.20161001git5d389c7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
