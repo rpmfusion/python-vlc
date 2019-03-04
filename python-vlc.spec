@@ -40,6 +40,7 @@ Requires:       vlc-core >= 1.1.0
 
 %prep
 %setup -q
+sed -i "s|! /usr/bin/python|! %{__python3}|" examples/*.py
 
 %build
 # The vlc.py file is already generated
@@ -83,6 +84,7 @@ chmod +x %{buildroot}%{python3_sitelib}/*py
 %changelog
 * Mon Mar 04 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.1.2-9.20161001git5d389c7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+- Fix shebang on examples
 
 * Fri Jul 27 2018 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.1.2-8.20161001git5d389c7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
