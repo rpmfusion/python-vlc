@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.6109
-Release:        0.1.%{gitdate}%{?dist}
+Release:        0.2.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 License:        GPLv2+
 URL:            http://www.videolan.org/
@@ -39,7 +39,8 @@ Requires:       vlc-core >= 1.1.0
 
 %prep
 %setup -q
-sed -i "s|! /usr/bin/python|! %{__python3}|" examples/*.py
+# Remove shebang so python2-vlc doesn't require python3
+sed -i "s|#! /usr/bin/python||" examples/*.py
 
 %build
 pushd generated/3.0
@@ -87,6 +88,9 @@ popd
 
 
 %changelog
+* Wed May 08 2019 Leigh Scott <leigh123linux@gmail.com> - 3.0.6109-0.2.20190508git949d19e
+- Remove shebang so python2-vlc doesn't require python3
+
 * Wed May 08 2019 Leigh Scott <leigh123linux@gmail.com> - 3.0.6109-0.1.20190508git949d19e
 - Update to 3.0.6109
 - Remove Group tag
