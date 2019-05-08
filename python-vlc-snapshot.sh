@@ -17,7 +17,7 @@ name=python-vlc
 
 pushd "$tmp" > /dev/null
 git clone git://git.videolan.org/vlc/bindings/python.git
-version=$(cat python/setup.py |grep version|sed -e "s|.*= '||" -e "s|',||")
+version=$(cat python/generated/3.0/setup.py |grep version|sed -e "s|.*= '||" -e "s|',||")
 pushd python
 tag=$(git rev-list HEAD -n 1 | cut -c 1-7)
 popd
