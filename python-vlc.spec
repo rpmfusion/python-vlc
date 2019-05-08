@@ -1,16 +1,15 @@
 # [Fedora] Turn off the brp-python-bytecompile script
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
-%global gitdate 20161001git5d389c7
+%global gitdate 20190508git949d19e
 %global srcname vlc
 %global sum VLC Media Player binding for Python
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        1.1.2
-Release:        9.%{gitdate}%{?dist}
+Version:        3.0.6109
+Release:        0.1.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
-Group:          Applications/Multimedia
 License:        GPLv2+
 URL:            http://www.videolan.org/
 Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
@@ -43,17 +42,22 @@ Requires:       vlc-core >= 1.1.0
 sed -i "s|! /usr/bin/python|! %{__python3}|" examples/*.py
 
 %build
-# The vlc.py file is already generated
+pushd generated/3.0
 %py2_build
 %py3_build
+popd
 
 %install
+pushd generated/3.0
 %py2_install
 %py3_install
+popd
 
-mkdir -p %{buildroot}%{_datadir}/%{name}/examples
-install -pm 755 examples/* \
+mkdir -p %{buildroot}%{_datadir}/%{name}/examples/video_sync
+install -pm 755 examples/*.* \
    %{buildroot}%{_datadir}/%{name}/examples/
+install -pm 755 examples/video_sync/*.* \
+   %{buildroot}%{_datadir}/%{name}/examples/video_sync/
 
 #fix shebang
 sed -i "s|! /usr/bin/python|! %{__python2}|" %{buildroot}%{python2_sitelib}/vlc.py
@@ -64,9 +68,10 @@ chmod +x %{buildroot}%{python2_sitelib}/*py
 chmod +x %{buildroot}%{python3_sitelib}/*py
 
 %check
+pushd generated/3.0
 %{__python2} setup.py test
-# Disable Python 3 tests. They pass on 3.4 but fail on 3.5
-#{__python3} setup.py test
+%{__python3} setup.py test
+popd
 
 %files -n python2-%{srcname}
 %license COPYING
@@ -82,6 +87,10 @@ chmod +x %{buildroot}%{python3_sitelib}/*py
 
 
 %changelog
+* Wed May 08 2019 Leigh Scott <leigh123linux@gmail.com> - 3.0.6109-0.1.20190508git949d19e
+- Update to 3.0.6109
+- Remove Group tag
+
 * Mon Mar 04 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.1.2-9.20161001git5d389c7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 - Fix shebang on examples
