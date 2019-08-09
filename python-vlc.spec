@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.6109
-Release:        0.2.%{gitdate}%{?dist}
+Release:        0.3.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 License:        GPLv2+
 URL:            http://www.videolan.org/
@@ -88,6 +88,9 @@ popd
 
 
 %changelog
+* Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.0.6109-0.3.20190508git949d19e
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed May 08 2019 Leigh Scott <leigh123linux@gmail.com> - 3.0.6109-0.2.20190508git949d19e
 - Remove shebang so python2-vlc doesn't require python3
 
