@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.6109
-Release:        0.3.%{gitdate}%{?dist}
+Release:        0.4.%{gitdate}%{?dist}
 Summary:        VLC Media Player binding for Python
 License:        GPLv2+
 URL:            http://www.videolan.org/
@@ -88,6 +88,9 @@ popd
 
 
 %changelog
+* Sat Aug 24 2019 Leigh Scott <leigh123linux@gmail.com> - 3.0.6109-0.4.20190508git949d19e
+- Rebuild for python-3.8
+
 * Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.0.6109-0.3.20190508git949d19e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
