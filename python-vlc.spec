@@ -1,32 +1,23 @@
 # [Fedora] Turn off the brp-python-bytecompile script
 %global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
-%global gitdate 20190508git949d19e
+%global gitdate 20200311git8e6c723
 %global srcname vlc
 %global sum VLC Media Player binding for Python
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        3.0.6109
-Release:        0.5.%{gitdate}%{?dist}
-Summary:        VLC Media Player binding for Python
+Version:        3.0.8112
+Release:        0.1.%{gitdate}%{?dist}
+Summary:        %{sum}
 License:        GPLv2+
 URL:            http://www.videolan.org/
 Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
 Source9:        %{name}-snapshot.sh
 BuildArch:      noarch
-BuildRequires:  python2-devel
 BuildRequires:  python3-devel
 
 %description
-This package provides a python interface to control VLC Media Player.
-
-%package -n python2-%{srcname}
-Summary:        %{sum}
-Requires:       vlc-core >= 1.1.0
-%{?python_provide:%python_provide python2-%{srcname}}
-
-%description -n python2-%{srcname}
 %{desc}
 
 %package -n python3-%{srcname}
@@ -39,18 +30,17 @@ Requires:       vlc-core >= 1.1.0
 
 %prep
 %setup -q
-# Remove shebang so python2-vlc doesn't require python3
+#fix shebang
 sed -i "s|#! /usr/bin/python||" examples/*.py
+sed -i "s|! /usr/bin/python|! %{__python3}|" generated/3.0/vlc.py
 
 %build
 pushd generated/3.0
-%py2_build
 %py3_build
 popd
 
 %install
 pushd generated/3.0
-%py2_install
 %py3_install
 popd
 
@@ -60,25 +50,15 @@ install -pm 755 examples/*.* \
 install -pm 755 examples/video_sync/*.* \
    %{buildroot}%{_datadir}/%{name}/examples/video_sync/
 
-#fix shebang
-sed -i "s|! /usr/bin/python|! %{__python2}|" %{buildroot}%{python2_sitelib}/vlc.py
-sed -i "s|! /usr/bin/python|! %{__python3}|" %{buildroot}%{python3_sitelib}/vlc.py
-
 #fix rpmlint
-chmod +x %{buildroot}%{python2_sitelib}/*py
 chmod +x %{buildroot}%{python3_sitelib}/*py
+chmod -x %{buildroot}%{_datadir}/%{name}/examples/*py
+chmod -x %{buildroot}%{_datadir}/%{name}/examples/video_sync/{*.py,README.md}
 
 %check
 pushd generated/3.0
-%{__python2} setup.py test
 %{__python3} setup.py test
 popd
-
-%files -n python2-%{srcname}
-%license COPYING
-%doc README.rst TODO
-%{python2_sitelib}/*
-%{_datadir}/%{name}/
 
 %files -n python3-%{srcname}
 %license COPYING
@@ -88,6 +68,10 @@ popd
 
 
 %changelog
+* Wed Mar 11 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.8112-0.1.20200311git8e6c723
+- Update to 3.0.8112
+- Drop python2 sub package
+
 * Wed Feb 05 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.0.6109-0.5.20190508git949d19e
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
