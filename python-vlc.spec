@@ -8,7 +8,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.8112
-Release:        0.1.%{gitdate}%{?dist}
+Release:        0.2.%{gitdate}%{?dist}
 Summary:        %{sum}
 License:        GPLv2+
 URL:            http://www.videolan.org/
@@ -68,6 +68,9 @@ popd
 
 
 %changelog
+* Sat May 30 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.8112-0.2.20200311git8e6c723
+- Rebuild for python-3.9
+
 * Wed Mar 11 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.8112-0.1.20200311git8e6c723
 - Update to 3.0.8112
 - Drop python2 sub package
