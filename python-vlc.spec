@@ -1,21 +1,20 @@
-# [Fedora] Turn off the brp-python-bytecompile script
-%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
-
-%global gitdate 20200311git8e6c723
+%global pypi_name python-vlc
 %global srcname vlc
 %global sum VLC Media Player binding for Python
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        3.0.8112
-Release:        0.2.%{gitdate}%{?dist}
+Version:        3.0.9113
+Release:        1%{?dist}
 Summary:        %{sum}
-License:        GPLv2+
-URL:            http://www.videolan.org/
-Source0:        %{name}-%{version}-%{gitdate}.tar.bz2
-Source9:        %{name}-snapshot.sh
+
+License:        LGPLv2+
+URL:            http://wiki.videolan.org/PythonBinding
+Source0:        https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
+
 BuildRequires:  python3-devel
+BuildRequires:  python3dist(setuptools)
 
 %description
 %{desc}
@@ -29,45 +28,41 @@ Requires:       vlc-core >= 1.1.0
 %{desc}
 
 %prep
-%setup -q
-#fix shebang
-sed -i "s|#! /usr/bin/python||" examples/*.py
-sed -i "s|! /usr/bin/python|! %{__python3}|" generated/3.0/vlc.py
+%autosetup -n %{pypi_name}-%{version}
+# Remove bundled egg-info
+rm -rf %{pypi_name}.egg-info
+# fix shebang
+sed -i "s|! /usr/bin/env python3|! %{__python3}|" examples/glsurface.py
+sed -i "s|! /usr/bin/python|! %{__python3}|" vlc.py
+#fix rpmlint
+chmod -x examples/cocoavlc.py examples/glsurface.py
+# Move README.md
+mv examples/video_sync/README.md .
+# Delete backup file
+rm examples/glsurface.py~
 
 %build
-pushd generated/3.0
 %py3_build
-popd
 
 %install
-pushd generated/3.0
 %py3_install
-popd
-
-mkdir -p %{buildroot}%{_datadir}/%{name}/examples/video_sync
-install -pm 755 examples/*.* \
-   %{buildroot}%{_datadir}/%{name}/examples/
-install -pm 755 examples/video_sync/*.* \
-   %{buildroot}%{_datadir}/%{name}/examples/video_sync/
 
 #fix rpmlint
-chmod +x %{buildroot}%{python3_sitelib}/*py
-chmod -x %{buildroot}%{_datadir}/%{name}/examples/*py
-chmod -x %{buildroot}%{_datadir}/%{name}/examples/video_sync/{*.py,README.md}
-
-%check
-pushd generated/3.0
-%{__python3} setup.py test
-popd
+chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 
 %files -n python3-%{srcname}
+%doc README.module README.md examples/
 %license COPYING
-%doc README.rst TODO
-%{python3_sitelib}/*
-%{_datadir}/%{name}/
-
+%{python3_sitelib}/__pycache__/*
+%{python3_sitelib}/vlc.py
+%{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Jun 11 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.9113-1
+- Update to 3.0.9113
+- Fix License
+- Move examples to doc
+
 * Sat May 30 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.8112-0.2.20200311git8e6c723
 - Rebuild for python-3.9
 
