@@ -4,7 +4,7 @@
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        3.0.9113
+Version:        3.0.10114
 Release:        1%{?dist}
 Summary:        %{sum}
 
@@ -14,6 +14,7 @@ Source0:        https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_na
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  /usr/bin/pathfix.py
 BuildRequires:  python3dist(setuptools)
 
 %description
@@ -32,8 +33,8 @@ Requires:       vlc-core >= 1.1.0
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 # fix shebang
-sed -i "s|! /usr/bin/env python3|! %{__python3}|" examples/glsurface.py
-sed -i "s|! /usr/bin/python|! %{__python3}|" vlc.py
+pathfix.py -pni %{__python3} examples/glsurface.py \
+ examples/play_buffer.py vlc.py
 #fix rpmlint
 chmod -x examples/cocoavlc.py examples/glsurface.py
 # Move README.md
@@ -58,6 +59,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Mon Jun 15 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.10114-1
+- Update to 3.0.10114
+
 * Thu Jun 11 2020 Leigh Scott <leigh123linux@gmail.com> - 3.0.9113-1
 - Update to 3.0.9113
 - Fix License
