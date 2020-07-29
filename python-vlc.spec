@@ -39,8 +39,6 @@ pathfix.py -pni %{__python3} examples/glsurface.py \
 chmod -x examples/cocoavlc.py examples/glsurface.py
 # Move README.md
 mv examples/video_sync/README.md .
-# Delete backup file
-rm examples/glsurface.py~
 
 %build
 %py3_build
