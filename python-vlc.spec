@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.11115
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        LGPLv2+
@@ -57,6 +57,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Tue Jun 15 2021 Leigh Scott <leigh123linux@gmail.com> - 3.0.11115-4
+- Rebuild for python-3.10
+
 * Wed Feb 03 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 3.0.11115-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
