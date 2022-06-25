@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.16120
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        LGPLv2+
@@ -57,6 +57,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Jun 25 2022 Robert-André Mauchin <zebob.m@gmail.com> - 3.0.16120-2
+- Rebuilt for Python 3.11
+
 * Tue Apr 12 2022 Leigh Scott <leigh123linux@gmail.com> - 3.0.16120-1
 - Update to 3.0.16120
 
