@@ -4,7 +4,7 @@
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        3.0.18121
+Version:        3.0.18122
 Release:        1%{?dist}
 Summary:        %{sum}
 
@@ -57,6 +57,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Apr 22 2023 Leigh Scott <leigh123linux@gmail.com> - 3.0.18122-1
+- Update to 3.0.18122
+
 * Wed Nov 16 2022 Leigh Scott <leigh123linux@gmail.com> - 3.0.18121-1
 - Update to 3.0.18121
 
