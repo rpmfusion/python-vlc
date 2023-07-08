@@ -5,7 +5,7 @@
 
 Name:           python-%{srcname}
 Version:        3.0.18122
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        LGPLv2+
@@ -57,6 +57,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Sat Jul 08 2023 Leigh Scott <leigh123linux@gmail.com> - 3.0.18122-2
+- Rebuilt for Python 3.12
+
 * Sat Apr 22 2023 Leigh Scott <leigh123linux@gmail.com> - 3.0.18122-1
 - Update to 3.0.18122
 
