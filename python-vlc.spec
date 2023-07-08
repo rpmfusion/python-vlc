@@ -32,7 +32,7 @@ Requires:       vlc-core >= 1.1.0
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 # fix shebang
-sed -i -e 's@#!/usr/bin/python@#!/usr/bin/python3@g' \
+sed -i -e 's@/usr/bin/python@/usr/bin/python3@g' \
  examples/glsurface.py \
  examples/play_buffer.py vlc.py
 #fix rpmlint
