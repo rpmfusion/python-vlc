@@ -14,7 +14,6 @@ Source0:        https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_na
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  /usr/bin/pathfix.py
 BuildRequires:  python3dist(setuptools)
 
 %description
@@ -33,7 +32,8 @@ Requires:       vlc-core >= 1.1.0
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 # fix shebang
-pathfix.py -pni %{__python3} examples/glsurface.py \
+sed -i -e 's@#!/usr/bin/python@#!/usr/bin/python3@g' \
+ examples/glsurface.py \
  examples/play_buffer.py vlc.py
 #fix rpmlint
 chmod -x examples/cocoavlc.py examples/glsurface.py
