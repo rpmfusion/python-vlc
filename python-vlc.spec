@@ -1,16 +1,17 @@
 %global pypi_name python-vlc
+%global pypi_version 3.0.20123
 %global srcname vlc
 %global sum VLC Media Player binding for Python
 %global desc This package provides a python interface to control VLC Media Player.
 
 Name:           python-%{srcname}
-Version:        3.0.18122
-Release:        3%{?dist}
+Version:        %{pypi_version}
+Release:        1%{?dist}
 Summary:        %{sum}
 
 License:        LGPLv2+
-URL:            http://wiki.videolan.org/PythonBinding
-Source0:        https://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+URL:            https://wiki.videolan.org/PythonBinding
+Source0:        %{pypi_name}-%{pypi_version}.tar.gz
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
@@ -28,13 +29,13 @@ Requires:       vlc-core >= 1.1.0
 %{desc}
 
 %prep
-%autosetup -n %{pypi_name}-%{version}
+%autosetup -n %{pypi_name}-%{pypi_version}
 # Remove bundled egg-info
 rm -rf %{pypi_name}.egg-info
 # fix shebang
 %py3_shebang_fix \
- examples/glsurface.py \
- examples/play_buffer.py vlc.py
+ examples/*.py \
+ vlc.py
 #fix rpmlint
 chmod -x examples/cocoavlc.py examples/glsurface.py
 # Move README.md
@@ -57,6 +58,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Thu Dec 14 2023 Leigh Scott <leigh123linux@gmail.com> - 3.0.20123-1
+- Update to 3.0.20123
+
 * Wed Aug 02 2023 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.0.18122-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
 
