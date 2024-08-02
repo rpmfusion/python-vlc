@@ -6,7 +6,7 @@
 
 Name:           python-%{srcname}
 Version:        %{pypi_version}
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        LGPLv2+
@@ -58,6 +58,9 @@ chmod +x %{buildroot}%{python3_sitelib}/vlc.py
 %{python3_sitelib}/python_vlc-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Fri Aug 02 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 3.0.20123-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
+
 * Thu Jun 13 2024 Leigh Scott <leigh123linux@gmail.com> - 3.0.20123-3
 - Rebuilt for Python 3.13
 
